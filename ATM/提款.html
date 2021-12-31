@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATM</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .screen {
+      width: 60%;
+      height: 40%;
+      margin: auto;
+      background-color: #000;
+      /* background: url(./images/防詐騙.gif) no-repeat center/cover; */
+      position: relative;
+    }
+
+    #title {
+      position: absolute;
+      top: 150px;
+      left: 350px;
+      color: #fff;
+    }
+
+    #password {
+      position: absolute;
+      top: 220px;
+      left: 350px;
+      font-size: 20px;
+    }
+
+    #start {
+      position: absolute;
+      top: 219px;
+      left: 595px;
+      height: 28px;
+    }
+
+    table {
+      width: 60%;
+      height: 60%;
+      border: 1px solid #aaa;
+      text-align: center;
+      margin: auto;
+    }
+
+    .num {
+      width: 22%;
+      height: 25%;
+      /* border-color: 2px #7c7c7c; */
+      background: -webkit-gradient(linear,
+          left top,
+          left bottom,
+          from(rgba(0, 0, 0, 0.25)),
+          to(#e6e6e6));
+      box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 1),
+        0px 1px 3px rgba(0, 0, 0, 0.3);
+      outline: none;
+      font-size: 4rem;
+      border: 4px solid #7c7c7c;
+    }
+
+    .num-none {
+      width: 22%;
+      height: 25%;
+      /* border-color: 2px #7c7c7c; */
+      background: -webkit-gradient(linear,
+          left top,
+          left bottom,
+          from(rgba(0, 0, 0, 0.25)),
+          to(#e6e6e6));
+      box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 1),
+        0px 1px 3px rgba(0, 0, 0, 0.3);
+      outline: none;
+      border: 5px solid #7c7c7c;
+    }
+
+    .button {
+      width: 24;
+      height: 25%;
+      /* border-color: #7c7c7c; */
+      background: -webkit-gradient(linear,
+          left top,
+          left bottom,
+          from(rgba(0, 0, 0, 0.25)),
+          to(#e6e6e6));
+      box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 1),
+        0px 1px 3px rgba(0, 0, 0, 0.3);
+      outline: none;
+      position: relative;
+      font-size: 2rem;
+      border: 4px solid #7c7c7c;
+    }
+
+    .red {
+      width: 70%;
+      height: 5%;
+      border-radius: 30px;
+      background-color: red;
+      position: absolute;
+      left: 16%;
+      bottom: 18%;
+    }
+
+    .yellow {
+      width: 70%;
+      height: 5%;
+      border-radius: 30px;
+      background-color: yellow;
+      position: absolute;
+      left: 16%;
+      bottom: 18%;
+    }
+
+    .green {
+      width: 70%;
+      height: 5%;
+      border-radius: 30px;
+      background-color: green;
+      position: absolute;
+      left: 16%;
+      bottom: 18%;
+    }
+
+    .greenyellow {
+      border-color: greenyellow;
+      color: greenyellow;
+    }
+
+    .lightsalmon {
+      border-color: lightsalmon;
+      color: lightsalmon;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="screen">
+    <h1 id="title">請輸入晶片金融卡密碼</h1>
+    <input type="text" placeholder="請輸入密碼" id="password" />
+    <input type="button" value="開始遊戲" id="start" />
+    目前分數:<span id="score"></span>
+  </div>
+  <table id="game">
+    <tr>
+      <td class="num" id="num7">7</td>
+      <td class="num" id="num8">8</td>
+      <td class="num" id="num9">9</td>
+      <td class="button" id="button1">
+        取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消
+        <br />
+        CANCEL <br />
+        <div class="red"></div>
+      </td>
+    </tr>
+    <tr>
+      <td class="num" id="num4">4</td>
+      <td class="num" id="num5">5</td>
+      <td class="num" id="num6">6</td>
+      <td class="button" id="button2">
+        更&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;正
+        <br />
+        CORRECTION <br />
+        <div class="yellow"></div>
+      </td>
+    </tr>
+    <tr>
+      <td class="num" id="num1">1</td>
+      <td class="num" id="num2">2</td>
+      <td class="num" id="num3">3</td>
+      <td class="button"></td>
+    </tr>
+    <tr>
+      <td class="num-none"></td>
+      <td class="num" id="num0">0</td>
+      <td class="num-none"></td>
+      <td class="button" id="button3">
+        確&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;認
+        <br />
+        ACCEPT <br />
+        <div class="green"></div>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    const nums = document.getElementsByClassName("num");
+    const start = document.getElementById("start");
+    const scoreText = document.getElementById("score");
+
+    let score = 0;
+    let timer = 0;
+    const audio = new Audio();
+
+    start.onclick = () => {
+      // 停用開始按鈕
+      start.disabled = true;
+      score = 0;
+      scoreText.innerText = score;
+      // 每秒變換一次
+      timer = setInterval(game, 1000);
+      game();
+      // 十秒後結束
+      setTimeout(end, 10 * 1000);
+    };
+
+    // 每秒變換顏色
+    const game = () => {
+      // 移除顏色
+      for (const num of nums) {
+        num.classList.remove("greenyellow");
+        num.classList.remove("lightsalmon");
+      }
+      //  隨機抽兩個變換顏色，不考慮重複
+      for (let i = 0; i < 2; i++) {
+        nums[Math.round(Math.random() * (nums.length - 1))].classList.add(
+          "greenyellow"
+        );
+      }
+    };
+
+    // 遊戲結束
+    const end = () => {
+      // 停止變換顏色
+      clearInterval(timer);
+      // 把顏色清掉
+      for (const num of nums) {
+        num.classList.remove("greenyellow");
+        num.classList.remove("lightsalmon");
+      }
+
+      // 重起開始按鈕
+      start.disabled = false;
+      //跳出訊息
+      if (score == 20) {
+        alert("請領取現金，並妥善保管，如未取鈔，機器將於10秒後收回現金");
+      } else if (score >= 15) {
+        alert("輸入錯誤，就差一點了，加油!");
+      } else {
+        alert("輸入錯誤請再試一次");
+      }
+    };
+
+    for (const num of nums) {
+      num.onclick = () => {
+        // 點選時是
+        if (num.classList.contains("greenyellow")) {
+          // 變為
+          num.classList.replace("greenyellow", "lightsalmon");
+          // 加分
+          score++;
+        }
+      };
+    }
+
+    // 數字鍵
+    document.onkeydown = (event) => {
+      // 按了什麼鍵
+      const key = event.key;
+      // 如果是數字鍵
+      if (!isNaN(key)) {
+        // 找到對應的格子
+        const target = document.getElementById(`num${key}`);
+        // 如果有找到
+        if (target && target.classList.contains("greenyellow")) {
+          // 變色
+          target.classList.replace("greenyellow", "lightsalmon");
+          // 加分
+          score++;
+        }
+      }
+    };
+  </script>
+</body>
+
+</html>
